@@ -88,7 +88,7 @@ Add the following to popup.html
       </style>
     </head>
     <body>
-      <button id="changeColor"></button>
+      <button id="change-color"></button>
     </body>
   </html>
 ```
@@ -101,5 +101,74 @@ Add the following into manifest.json
  },
 ```
 
+`mkdir images`
+
+Copy icons(with different resolutions) to images folder.
+
+Add the following to manifest.json under `page_action` (change filenames accordingly)
+
+```json
+     "default_icon": {
+        "16": "images/get_started16.png",
+        "32": "images/get_started32.png",
+        "48": "images/get_started48.png",
+        "128": "images/get_started128.png"
+      }
+```
+
+
+Extensions also display images on the extension management page, the permissions warning, and favicon. 
+These images are designated in the manifest under icons.
+
+```json
+    "icons": {
+      "16": "images/get_started16.png",
+      "32": "images/get_started32.png",
+      "48": "images/get_started48.png",
+      "128": "images/get_started128.png"
+    }
+```
+
+`page_action` is declared in the manifest, it is up to the extension to tell the browser when the user can interact with popup.html.
+
+
+Add declared rules to the background script with the declarativeContent API within the runtime.onInstalled listener event.
+
+
+```js
+
+chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
+      chrome.declarativeContent.onPageChanged.addRules([{
+        conditions: [new chrome.declarativeContent.PageStateMatcher({
+          pageUrl: {hostEquals: 'developer.chrome.com'},
+        })
+        ],
+            actions: [new chrome.declarativeContent.ShowPageAction()]
+      }]);
+    });
+```
+
+
+The extension will need permission to access the declarativeContent API in its manifest.
+
+
+```js
+"permissions": ["declarativeContent", "storage"]
+```
+
+
+
+`touch popup.js`
+
+### Add the following logic to popup.js
+
+```js
+let changeColor = document.getElementById('change-color');
+
+  chrome.storage.sync.get('color', function(data) {
+    changeColor.style.backgroundColor = data.color;
+    changeColor.setAttribute('value', data.color);
+  });
+```
 
 
