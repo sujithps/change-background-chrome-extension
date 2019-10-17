@@ -1,0 +1,6 @@
+{
+  "name": "Change Background Color",
+  "version": "1.0",
+  "description": "This chrome extension will help you to change the website's background color.",
+  "manifest_version": 2
+}
