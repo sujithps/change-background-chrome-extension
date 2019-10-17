@@ -67,3 +67,39 @@ chrome.runtime.onInstalled.addListener(function () {
 
 `touch README.md` 
 
+// Add readme descriptions and continue editing this file for any change.
+
+### Add a popup to the extension
+
+`touch popup.html`
+
+Add the following to popup.html
+
+```html
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <style>
+        button {
+          height: 30px;
+          width: 30px;
+          outline: none;
+        }
+      </style>
+    </head>
+    <body>
+      <button id="changeColor"></button>
+    </body>
+  </html>
+```
+
+Add the following into manifest.json
+
+```json
+"page_action": {
+      "default_popup": "popup.html"
+ },
+```
+
+
+

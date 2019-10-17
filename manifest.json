@@ -10,6 +10,9 @@
     "scripts": [
       "scripts/background.js"
     ],
+    "page_action": {
+      "default_popup": "popup.html"
+    },
     "persistent": false
   }
 }
