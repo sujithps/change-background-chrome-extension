@@ -5,7 +5,9 @@
   "manifest_version": 2,
   "permissions": [
     "declarativeContent",
-    "storage"
+    "storage",
+    "activeTab",
+    "tabs"
   ],
   "background": {
     "scripts": [

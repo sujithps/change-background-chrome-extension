@@ -1,6 +1,28 @@
-let changeColor = document.getElementById('change-color');
-
-chrome.storage.sync.get('color', function (data) {
-    changeColor.style.backgroundColor = data.color;
-    changeColor.setAttribute('value', data.color);
+document.body.addEventListener('click', function(e) {
+    let target = e.target;
+    if (target.nodeName === 'BUTTON') {
+        if (target.name === 'reset') {
+            chrome.storage.sync.clear(function(data){
+                chrome.tabs.query({active: true, currentWindow: true}, function(tab) {
+                    chrome.tabs.reload(tab[0].id);
+                });
+            });
+        }
+        changeBG(target.name);
+    }
+    e.stopPropagation();
 });
+
+function changeBG(color) {
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        chrome.tabs.executeScript(
+            tabs[0].id,
+            {code: 'document.body.style.backgroundColor = "#' + color + '";'}
+        );
+    });
+    storeColor(color);
+}
+
+function storeColor(bgColor) {
+    chrome.storage.sync.set({currentColor: bgColor});
+}
